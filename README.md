@@ -3,7 +3,7 @@
 Egscape is a new take on existing tools that are used to verify egress filtering. Think of it as a reverse port scanner. There are two peices, a client and sniffer (notice 'sniffer' is not server). Use this tool to test your outbound filtering. 
 
 
-####Client Scan Types:
+####Client
 The client is built with .NET and implements three separate scanning types.
 
 1. tcp: Attempt to initiate a socket connection to a server over tcp. Very much like nmap's connect scan. A clever hack is used to make this run fairly fast, sending one request every 50ms, this value can be editied in the source
