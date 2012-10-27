@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Copyright (c) 2012 Tom Steele
+# See the file license.txt for copying permission
 # egscape-server
 # uses scapy to capture, tcp[syn] and udp packets
 # authors: Tom Steele (tom@huptwo34.com), Dan Kottmann
