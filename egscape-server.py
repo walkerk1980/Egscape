@@ -14,10 +14,24 @@ from scapy.all import *
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 
-def make_csv(open_ports):
-    """need to build this"""
+def make_csv(open_ports, csv):
+    """Write the output to a CSV file
+    """
 
-    pass
+    with open(csv, "w") as outfile:
+        # process tcp list
+        if open_ports['tcp']:
+            ports = list(open_ports['tcp'])
+            ports.sort()
+            for port in ports:
+                outfile.write("tcp,{0}\n".format(port))
+
+        # process tcp list
+        if open_ports['udp']:
+            ports = list(open_ports['udp'])
+            ports.sort()
+            for port in ports:
+                outfile.write("udp,{0}\n".format(port))
 
 
 def output_ports(open_ports):
@@ -48,7 +62,7 @@ def output_ports(open_ports):
         print "[-] No udp connection attempts received"
 
 
-def handle_packet(pkt, verbose, open_ports):
+def handle_packet(pkt, verbose, open_ports, src):
     """Handle a received packet from the target source
 
     This is used as the callback function by the scapy sniff function. This
@@ -70,7 +84,8 @@ def handle_packet(pkt, verbose, open_ports):
     open_ports[prot].add(dport)
     #open_ports.add("{0}/{1}".format(dport, prot))
     if verbose:
-        print "[+] Received data destined for {0}/{1}".format(dport, prot)
+        outstring = "[+] Received data destined for {0}/{1} from {2}"
+        print outstring.format(dport, prot, src)
     return
 
 
@@ -79,7 +94,7 @@ def main():
 
     Starts the sniffer and processes results.
     """
-    usage = "usage: %prog [-v] <interface> <ipaddress>"
+    usage = "usage: %prog [-v] [--csv=OUTFILE] <interface> <ipaddress>"
     description = """%prog provides the server-side handling of the egressive
 egress filter toolset. Both the source IP and interface
 command line switches are required."""
@@ -115,7 +130,7 @@ command line switches are required."""
 
     try:
         sniff(filter=pcap_filter, iface=interface,
-              prn=lambda x: handle_packet(x, verbose, open_ports))
+              prn=lambda x: handle_packet(x, verbose, open_ports, src))
     except Scapy_Exception as e:
         print >> sys.stderr, "[!] Scapy error:{0}".format(e)
     except socket.error as e:
@@ -126,8 +141,10 @@ command line switches are required."""
     output_ports(open_ports)
 
     if csv:
-        make_csv(open_ports)
+        print "[+] Writing port(s) to {0}...".format(csv)
+        make_csv(open_ports, csv)
 
 
 if __name__ == '__main__':
     main()
+
