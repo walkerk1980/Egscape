@@ -16,5 +16,10 @@ namespace Egscape_gui
         {
             InitializeComponent();
         }
+
+        private void scanButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
