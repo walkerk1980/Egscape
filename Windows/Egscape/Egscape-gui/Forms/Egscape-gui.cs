@@ -22,6 +22,8 @@ namespace Egscape_gui
             Egscape eg = new Egscape();
             if (eg.InputIsNotNullOrVoid(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text))
             {
+                eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
+                
                 //MessageBox.Show("True");
             }
             else
