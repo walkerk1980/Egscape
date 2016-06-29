@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Egscape_gui
 {
-    class Egscape
+    class Egscape : CommonTools
     {
 
     }

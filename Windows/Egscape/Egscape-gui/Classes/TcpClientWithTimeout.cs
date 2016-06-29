@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace Egscape_gui
 {
-    public class TcpClientWithTimeout
+    public class TcpClientWithTimeout : CommonTools
     {
         // this is pretty much a hack to implement a timeout on the TcpClient class
         /* i stole most of this code

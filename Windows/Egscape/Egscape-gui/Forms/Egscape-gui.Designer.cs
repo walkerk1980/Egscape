@@ -102,6 +102,7 @@
             this.portTypeComboBox.Name = "portTypeComboBox";
             this.portTypeComboBox.Size = new System.Drawing.Size(121, 21);
             this.portTypeComboBox.TabIndex = 3;
+            this.portTypeComboBox.Text = "Port Input Type";
             // 
             // EgscapeMainForm
             // 
