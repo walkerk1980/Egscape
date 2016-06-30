@@ -11,10 +11,6 @@ namespace Egscape_gui
 {
     public class TcpClientWithTimeout : CommonTools
     {
-        // this is pretty much a hack to implement a timeout on the TcpClient class
-        /* i stole most of this code
-        http://www.splinter.com.au/opening-a-tcp-connection-in-c-with-a-custom-t/
-        */
         protected TcpClient connection;
         protected string _hostname;
         protected int _port;

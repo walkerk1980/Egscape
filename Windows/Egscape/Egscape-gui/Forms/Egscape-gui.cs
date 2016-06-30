@@ -20,16 +20,25 @@ namespace Egscape_gui
         private void scanButton_Click(object sender, EventArgs e)
         {
             Egscape eg = new Egscape();
-            if (eg.InputIsNotNullOrVoid(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text))
+            if (String.Equals(scanButton.Text,"Scan"))
             {
-                eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
-                
-                //MessageBox.Show("True");
+                if (eg.InputIsNotNullOrVoid(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text))
+                {
+                    scanButton.Text = "Cancel Scan...";
+                    eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
+                    //MessageBox.Show("True");
+                }
+                else
+                {
+                    //MessageBox.Show("False");
+                }
             }
             else
             {
-                //MessageBox.Show("False");
+                MessageBox.Show("Scan will be cancelled when you press OK.");
+                scanButton.Text = "Scan";
             }
+
             
         }
     }
