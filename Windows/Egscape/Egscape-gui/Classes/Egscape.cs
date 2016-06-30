@@ -33,7 +33,7 @@ namespace Egscape_gui
                     break;
             }
 
-            MessageBox.Show("Scanning..." + Environment.NewLine + Environment.NewLine + "Protocol: " + protocol + Environment.NewLine + "Host: " + host + Environment.NewLine + "Ports: " + ports );
+            MessageBox.Show("Scanning..." + Environment.NewLine + Environment.NewLine + "Protocol: " + protocol + Environment.NewLine + "Host: " + host + Environment.NewLine + "Ports: " + ports + Environment.NewLine + Environment.NewLine + "Logging output to \"Documents\\Egscape\"" );
 
         }
 
