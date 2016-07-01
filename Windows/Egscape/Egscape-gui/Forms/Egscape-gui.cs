@@ -24,7 +24,7 @@ namespace Egscape_gui
             {
                 if (eg.InputIsNotNullOrVoid(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text))
                 {
-                    scanButton.Text = "Cancel Scan...";
+                    scanButton.Text = "Scanning...";
                     eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
                     //MessageBox.Show("True");
                 }
@@ -41,5 +41,6 @@ namespace Egscape_gui
 
             
         }
+
     }
 }

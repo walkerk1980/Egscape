@@ -21,66 +21,94 @@ namespace Egscape_gui
                 return true;
         }
 
-        protected List<int> ParsePortString(String portString)
+        public bool IsPortStringValid(string portString, string portType)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(portString, "[0-9,-]"))
+            {
+                if(!portString.Contains(",") && !portString.Contains("-"))
+                {
+                    int portnum = 0;
+                    if (Int32.TryParse(portString, out portnum))
+                    {
+                        if (portnum > 0 && portnum < 65536)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Port is out of Range!");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot parse port!");
+                        return false;
+                    }
+                }
+                else if(portString.Contains(",") && portString.Contains("-"))
+                {
+                    MessageBox.Show("Port List cannot contain both a list and a range!");
+                    return false;
+                }
+                else if(portString.Contains("-") && String.Equals(portType, "Dash Seperated Range") && !(System.Text.RegularExpressions.Regex.IsMatch(portString, "^-") || System.Text.RegularExpressions.Regex.IsMatch(portString, "-$")))
+                {
+                    int portnum1, portnum2;
+                    if(Int32.TryParse(portString.Substring(0,portString.IndexOf("-")),out portnum1) && Int32.TryParse(portString.Substring(portString.IndexOf("-")+1), out portnum2))
+                    {
+                        if (portnum1 < portnum2)
+                        {
+                            if (portnum1 > 0 && portnum2 < 65536) { return true; }
+                            else { MessageBox.Show("Port input is out of range!"); return false; }
+                        }
+                        else { MessageBox.Show("Port range is backwards!"); return false; }
+                    }
+                    else { MessageBox.Show("Something is wrong with port input!"); return false; }
+                }
+                else if(portString.Contains(",") && String.Equals(portType, "Comma Seperated Ports") && !(System.Text.RegularExpressions.Regex.IsMatch(portString, "^,") || System.Text.RegularExpressions.Regex.IsMatch(portString, ",$")))
+                {
+                    return true;
+                }
+                else { MessageBox.Show("Something wrong with port input or type!"); return false; }
+            }
+            else
+            {
+                MessageBox.Show("Port list contains invalid Characters");
+                return false;
+            }
+        }
+
+        protected List<int> ParsePortString(String portString, string portType)
         {
             var ports = new List<int>();
-
-            // test if single port
-            int test;
-            bool isNumeric;
-            if (isNumeric = int.TryParse(portString, out test))
+            //single port
+            if (!portString.Contains(",") && !portString.Contains("-"))
             {
-                ports.Add(Convert.ToInt32(portString));
+                ports.Add(Int32.Parse(portString));
                 return ports;
             }
-
-            // test if port string is ',' or '-'
-            if (portString.IndexOfAny(",".ToCharArray()) > -1)
+            if (String.Equals(portType, "Comma Seperated Ports"))
             {
-                if (portString.IndexOfAny("-".ToCharArray()) != -1)
-                {
-                    MessageBox.Show("Invalid Port Specification\n");
-                    //Environment.Exit(1);
-                }
-
-                String[] splitPorts = portString.Split(',');
+                string[] splitPorts = portString.Split(',');
                 foreach (string port in splitPorts)
                 {
                     ports.Add(Convert.ToInt32(port));
                 }
+                return ports;
             }
-            else if (portString.IndexOfAny("-".ToCharArray()) > -1)
+            else if (String.Equals(portType, "Dash Seperated Range"))
             {
-                String[] splitPorts = portString.Split(new char[] { '-' }, 2);
-                int startPort = Convert.ToInt32(splitPorts[0]);
-                int endPort = Convert.ToInt32(splitPorts[1]);
-
-                if (startPort > endPort)
-                {
-                    MessageBox.Show("Invalid Port Specification\n");
-                    //Environment.Exit(1);
-                }
-
-                if (endPort > 65535)
-                {
-                    MessageBox.Show("Invalid Port Specification\n");
-                    //Environment.Exit(1);
-                }
-
-                // do this until i find a replacement for Enumerable.Range()
-                endPort = (endPort - startPort) + 1;
-                IEnumerable<int> enumPorts = Enumerable.Range(startPort, endPort);
-                foreach (int port in enumPorts)
-                {
-                    ports.Add(port);
-                }
+                int portnum1, portnum2;
+                portnum1 = Int32.Parse(portString.Substring(0, portString.IndexOf("-")));
+                portnum2 = Int32.Parse(portString.Substring(portString.IndexOf("-") + 1));
+                ports.AddRange(Enumerable.Range(portnum1, portnum2 - portnum1 +1));
+                return ports;
             }
             else
             {
-                MessageBox.Show("Invalid Port Specification\n");
-                //Environment.Exit(1);
+                MessageBox.Show("Something went wrong!");
+                return ports;
             }
-            return ports;
         }
     }
 }

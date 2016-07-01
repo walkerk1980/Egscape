@@ -80,7 +80,7 @@
             this.portLabel.Name = "portLabel";
             this.portLabel.Size = new System.Drawing.Size(95, 13);
             this.portLabel.TabIndex = 6;
-            this.portLabel.Text = "Port or Port Range";
+            this.portLabel.Text = "Port, Port List or Port Range";
             // 
             // scanButton
             // 
