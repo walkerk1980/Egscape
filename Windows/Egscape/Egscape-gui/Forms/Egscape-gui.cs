@@ -25,7 +25,9 @@ namespace Egscape_gui
                 if (eg.InputIsNotNullOrVoid(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text))
                 {
                     scanButton.Text = "Cancel Scan...";
-                    eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
+                    Thread runScanThread = new Thread(() => eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text));
+                    runScanThread.Start();
+                    //eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
                     //MessageBox.Show("True");
                 }
                 else
