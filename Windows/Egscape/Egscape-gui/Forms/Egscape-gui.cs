@@ -24,8 +24,15 @@ namespace Egscape_gui
             {
                 if (eg.InputIsNotNullOrVoid(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text))
                 {
+<<<<<<< HEAD
                     scanButton.Text = "Scanning...";
                     eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
+=======
+                    scanButton.Text = "Cancel Scan...";
+                    Thread runScanThread = new Thread(() => eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text));
+                    runScanThread.Start();
+                    //eg.RunScan(protocolComboBox.Text, hostTextBox.Text, portTextBox.Text, portTypeComboBox.Text);
+>>>>>>> 02b1bee3b9dc22d5d2dbf315a55ecd708b33470f
                     //MessageBox.Show("True");
                 }
                 else
